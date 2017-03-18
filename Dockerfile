@@ -1,4 +1,4 @@
-FROM jokke/ubuntu-mate-x2go-desktop
+FROM apnar/ubuntu-mate-x2go-desktop
 
 USER root
 
@@ -23,6 +23,10 @@ RUN add-apt-repository universe -y && \
 # set a password for user mythtv and add to required groups
     echo "mythtv:mythtv" | chpasswd && \
     usermod -s /bin/bash -d /home/mythtv -a -G users,mythtv,adm,sudo mythtv && \
+
+# have myth setup use proper start and stop scripts
+    sed -i 's#/usr/sbin/service mythtv-backend stop#/usr/bin/supervisorctl stop mythtv#' /usr/bin/mythtv-setup && \
+    sed -i 's#/usr/sbin/service mythtv-backend start#/usr/bin/supervisorctl start mythtv#' /usr/bin/mythtv-setup && \
 
 # set permissions for files/folders
     chown -R mythtv:users /var/lib/mythtv /var/log/mythtv /mnt/recordings /mnt/movies && \
