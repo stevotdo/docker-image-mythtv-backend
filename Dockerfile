@@ -31,8 +31,29 @@ RUN add-apt-repository universe -y && \
 # set permissions for files/folders
     chown -R mythtv:users /var/lib/mythtv /var/log/mythtv /mnt/recordings /mnt/movies && \
 
-# change ssh port
-    sed -i 's/Port 22/Port 6522/' /etc/ssh/sshd_config && \
+# install mariadb
+    groupadd mysql && \
+    useradd -g mysql mysql && \
+    apt-get install -y gettext-base mariadb-server pwgen && \
+    rm -rf /var/lib/mysql && \
+    mkdir --mode=0777 /var/lib/mysql /var/run/mysqld && \
+    chown mysql:mysql /var/lib/mysql && \
+    printf '[mysqld]\nskip-name-resolve\n' > /etc/mysql/conf.d/skip-name-resolve.cnf && \
+    chmod 0777 -R /var/lib/mysql /var/log/mysql && \
+    chmod 0775 -R /etc/mysql && \
+    cat > /etc/supervisor/conf.d/mariadb-10.0.conf <<EOF
+[program:mariadb-10.0]
+command=mysqld_safe
+autostart=true
+autorestart=true
+startretries=3
+
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+EOF && \
+
 
 # clean up
     apt-get clean && \
@@ -43,7 +64,9 @@ RUN add-apt-repository universe -y && \
     (( find /usr/share/doc -empty|xargs rmdir || true ))
 
 # expose ports (UPnP, MythTV backend + API)
-EXPOSE 5000/udp 6543 6544
+EXPOSE 5000/udp 6543 6544 22
+VOLUME /var/lib/mysql/
 
+COPY ["*.sh", "/"]
 COPY ["config.xml", "/etc/mythtv/"]
 COPY ["*.conf", "/etc/supervisor/conf.d/"]
