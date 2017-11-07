@@ -15,7 +15,9 @@ RUN add-apt-repository universe -y && \
 
 # install mythtv-backend, database and ping util
     apt-get install -y --no-install-recommends gettext-base mariadb-server && \
-    apt-get install -y --no-install-recommends mythtv-backend mythtv-database mythtv-theme-mythbuntu iputils-ping && \
+    /usr/bin/mysqld_safe -d && \
+    apt-get install -y --no-install-recommends mythtv-backend-master mythtv-theme-mythbuntu iputils-ping && \
+    apt-get install -y --no-install-recommends mythbuntu-control-centre && \
 
 # create/place required files/folders
     mkdir -p /home/mythtv/.mythtv /var/lib/mythtv /var/log/mythtv /var/run/mysqld /root/.mythtv \
@@ -55,6 +57,6 @@ RUN add-apt-repository universe -y && \
 EXPOSE 5000/udp 6543 6544 22 3306
 VOLUME /var/lib/mysql/
 
-COPY ["*.sh", "/"]
+COPY ["docker-entrypoint.sh", "/"]
 COPY ["config.xml", "/etc/mythtv/"]
-COPY ["*.conf", "/etc/supervisor/conf.d/"]
+COPY ["mariadb-10.0.conf", "/etc/supervisor/conf.d/"]
