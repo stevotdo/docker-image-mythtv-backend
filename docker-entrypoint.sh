@@ -25,11 +25,12 @@ fi
 
 DIR="/var/lib/mysql"
 if [ "$(ls -A $DIR)" ]; then
-     echo "$DIR is not Empty - skipping database initialization"
+    echo "$DIR is not Empty - skipping database initialization"
+    chown -R mysql:mysql /var/lib/mysql
 else
     echo "$DIR is Empty - initializing mariadb"
     chown -R mysql:mysql /var/lib/mysql
-    /usr/sbin/mysqld --initalize
+    /usr/bin/mysql_install_db --user=mysql
     /usr/bin/mysqld_safe -d
     /usr/sbin/dpkg-reconfigure mythtv-database
     /usr/bin/mysqladmin shutdown
