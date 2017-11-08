@@ -23,5 +23,17 @@ if [ ! -z "${MYSQL_PORT}" ]; then
   sed -i "s#<Port>.*#<Port>${MYSQL_PORT}</Port>#" /etc/mythtv/config.xml
 fi
 
+DIR="/var/lib/mysql"
+if [ "$(ls -A $DIR)" ]; then
+     echo "$DIR is not Empty - skipping database initialization"
+else
+    echo "$DIR is Empty - initializing mariadb"
+    chown -R mysql:mysql /var/lib/mysql
+    /usr/sbin/mysqld --initalize
+    /usr/bin/mysqld_safe -d
+    /usr/sbin/dpkg-reconfigure mythtv-database
+    /usr/bin/mysqladmin shutdown
+fi
+
 exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf 1>/dev/null
 

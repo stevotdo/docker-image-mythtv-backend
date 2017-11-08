@@ -15,7 +15,6 @@ RUN add-apt-repository universe -y && \
 
 # install mythtv-backend, database and ping util
     apt-get install -y --no-install-recommends gettext-base mariadb-server && \
-    /usr/bin/mysqld_safe -d && \
     apt-get install -y --no-install-recommends mythtv-backend-master mythtv-theme-mythbuntu iputils-ping && \
     apt-get install -y --no-install-recommends mythbuntu-control-centre && \
 
@@ -35,15 +34,8 @@ RUN add-apt-repository universe -y && \
     chown -R mythtv:users /var/lib/mythtv /var/log/mythtv /mnt/recordings /mnt/movies && \
 
 # install mariadb
-  #  groupadd mysql && \
-  #  useradd -g mysql mysql && \
-  #  apt-get install -y gettext-base mariadb-server pwgen && \
-  #  rm -rf /var/lib/mysql && \
-  #  mkdir --mode=0777 /var/lib/mysql /var/run/mysqld && \
   #  chown mysql:mysql /var/lib/mysql && \
   #  printf '[mysqld]\nskip-name-resolve\n' > /etc/mysql/conf.d/skip-name-resolve.cnf && \
-  #  chmod 0777 -R /var/lib/mysql /var/log/mysql && \
-  #  chmod 0775 -R /etc/mysql && \
 
 # clean up
     apt-get clean && \
@@ -59,4 +51,5 @@ VOLUME /var/lib/mysql/
 
 COPY ["docker-entrypoint.sh", "/"]
 COPY ["config.xml", "/etc/mythtv/"]
-COPY ["mariadb-10.0.conf", "/etc/supervisor/conf.d/"]
+COPY ["mariadb.conf", "/etc/supervisor/conf.d/"]
+COPY ["mythtv.conf", "/etc/supervisor/conf.d/"]
