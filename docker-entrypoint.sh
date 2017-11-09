@@ -34,6 +34,7 @@ else
     /usr/bin/mysql_install_db --user=mysql
     /usr/bin/mysqld_safe -d
     /usr/sbin/dpkg-reconfigure mythtv-database
+    mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
     /usr/bin/mysqladmin shutdown
 fi
 

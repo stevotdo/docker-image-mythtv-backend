@@ -14,7 +14,7 @@ RUN add-apt-repository universe -y && \
     apt-get update -qq && \
 
 # install mythtv-backend, database and ping util
-    apt-get install -y --no-install-recommends gettext-base mariadb-server && \
+    apt-get install -y --no-install-recommends gettext-base mariadb-server tzdata && \
     sed -i 's/bind-address/#bind-address/' /etc/mysql/mariadb.conf.d/50-server.cnf && \
     apt-get install -y --no-install-recommends mythtv-backend-master mythtv-theme-mythbuntu iputils-ping && \
     apt-get install -y --no-install-recommends mythbuntu-control-centre && \
