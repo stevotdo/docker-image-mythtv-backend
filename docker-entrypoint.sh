@@ -23,6 +23,7 @@ if [ ! -z "${MYSQL_PORT}" ]; then
   sed -i "s#<Port>.*#<Port>${MYSQL_PORT}</Port>#" /etc/mythtv/config.xml
 fi
 
+chown -R mysql:mysql /var/run/mysqld 
 DIR="/var/lib/mysql"
 if [ "$(ls -A $DIR)" ]; then
     echo "$DIR is not Empty - skipping database initialization"
