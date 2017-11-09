@@ -30,8 +30,10 @@ RUN add-apt-repository universe -y && \
     sed -i 's#/usr/sbin/service mythtv-backend start#/usr/bin/supervisorctl start mythtv#' /usr/bin/mythtv-setup && \
 
 # set permissions for files/folders
+    mkdir /home/mythtv/Desktop && \
     cp /usr/share/applications/mythtv-setup.desktop /home/mythtv/Desktop && \
     chmod 775 /home/mythtv/Desktop/mythtv-setup.desktop && \
+    chown -R mythtv:mythtv /home/mythtv/Desktop && \
     chown -R mythtv:users /var/lib/mythtv /var/log/mythtv /mnt/recordings /mnt/movies && \
 
 # change ssh port
