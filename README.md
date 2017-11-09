@@ -45,8 +45,5 @@ I generally try to avoid using host networking whenever possible but MythTV does
 an IP address that it doesn't see on the box itself.  This resulted in clients not being able to access
 the backend correctly unless host networking was used. Ports used are:
 
-3306 - mariadb
-6522 - ssh (used for x2go)
-6543 - mythtv
-6544 - mythtv
+3306 - mariadb, 6522 - ssh (used for x2go), 6543 - mythtv, 6544 - mythtv
 
