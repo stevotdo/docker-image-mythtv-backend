@@ -32,7 +32,7 @@ else
     echo "$DIR is Empty - initializing mariadb"
     chown -R mysql:mysql /var/lib/mysql
     /usr/bin/mysql_install_db --user=mysql
-    /usr/bin/mysqld_safe -d
+    cd '/usr' ; /usr/bin/mysqld_safe --datadir='/var/lib/mysql'
     /usr/sbin/dpkg-reconfigure mythtv-database
     mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
     /usr/bin/mysqladmin shutdown
