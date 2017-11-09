@@ -37,6 +37,7 @@ else
     /usr/sbin/dpkg-reconfigure mythtv-database
     mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql -u root mysql
     /usr/bin/mysqladmin shutdown
+    chown -R mythtv:users /mnt/recordings /mnt/movies
 fi
 
 exec /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf 1>/dev/null

@@ -48,8 +48,8 @@ RUN add-apt-repository universe -y && \
     (( find /usr/share/doc -empty|xargs rmdir || true ))
 
 # expose ports (UPnP, MythTV backend + API)
-EXPOSE 5000/udp 6543 6544 22 3306
-VOLUME /var/lib/mysql/
+EXPOSE 5000/udp 6543 6544 6522 3306
+VOLUME /var/lib/mysql/ /mnt/recordings /mnt/movies
 
 COPY ["docker-entrypoint.sh", "/"]
 COPY ["config.xml", "/etc/mythtv/"]
