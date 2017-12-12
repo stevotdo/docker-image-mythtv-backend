@@ -26,6 +26,7 @@ You'll need to download the x2go client if you don't already have it from here:
 https://wiki.x2go.org/doku.php/download:start
 
 Then connect to your docker host using x2go on port 6522 with username 'mythtv' and password 'mythtv'.
+Be sure to select session type 'MATE' in the Session Preferences.
 
 You should see a MythTV Backend Setup icon on the desktop that you can launch to configure MythTV.
 
