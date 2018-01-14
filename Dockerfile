@@ -12,6 +12,13 @@ RUN add-apt-repository universe -y && \
     apt-add-repository ppa:mythbuntu/0.29 -y && \
     apt-get update -qq && \
 
+# mv startup file(s) and make executable
+mv /root/004-bring-up-rdp.sh /etc/my_init.d/004-bring-up-rdp.sh && \
+chmod +x /etc/my_init.d/* && \
+
+# Add local files
+ADD src/ /root/
+
 # install xrdp
 apt-get install \
 xrdp -y && \
