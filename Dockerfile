@@ -12,6 +12,11 @@ RUN add-apt-repository universe -y && \
     apt-add-repository ppa:mythbuntu/0.29 -y && \
     apt-get update -qq && \
 
+# install xrdp
+apt-get install \
+xrdp -y && \
+mv /root/xrdp.ini /etc/xrdp/xrdp.ini && \
+
 # install mythtv-backend, database and ping util
     apt-get install -y --no-install-recommends gettext-base mariadb-server tzdata && \
     sed -i 's/bind-address/#bind-address/' /etc/mysql/mariadb.conf.d/50-server.cnf && \
@@ -50,7 +55,7 @@ RUN add-apt-repository universe -y && \
     (( find /usr/share/doc -empty|xargs rmdir || true ))
 
 # expose ports (UPnP, MythTV backend + API)
-EXPOSE 5000/udp 6543 6544 6522 3306
+EXPOSE 5000/udp 6543 6544 6522 3306 3389
 VOLUME /var/lib/mysql/ /mnt/recordings /mnt/movies
 
 COPY ["docker-entrypoint.sh", "/"]
